@@ -1,0 +1,31 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+    #表示 Eureka Server 在接收到上一个心跳之后等待下一个心跳的秒数（默认 90 秒），若不能在指定时间内收到心跳，则移除此实例，并禁止此实例的流量。
+    #此值设置太长，即使实例不存在，流量也能路由到该实例
+    #此值设置太小，由于网络故障，实例会被取消流量
+    leaseExpirationDurationInSeconds: 2
+  client:
+    #是否注册到eureka服务，默认为true，当前已为eureka server，且单点eureka，故配置为false（该节点作为注册中心）
+    registerWithEureka: false
+    #是否在本地缓存注册表信息，默认为true，当前为单点eureka server，不需要从其他eureka除获取注册表信息，更谈不上缓存，故配置为false
+    fetchRegistry: false
+    #客户端需要注册的 Eureka Server 的地址
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/
+  server:
+    #表示注册中心是否开启服务的自我保护能力（false 关闭自我保护，不管如何都要剔除心跳检测异常的服务）
+    # 自我保护机制，默认true。打开后，心跳失败在15分钟内低于85%(renewalPercentThreshold)的服务，也不进行剔除。
+    # 关闭后，主页提示：RENEWALS ARE LESSER THAN THE THRESHOLD. THE SELF PRESERVATION MODE IS TURNED OFF.
+    # THIS MAY NOT PROTECT INSTANCE EXPIRY IN CASE OF NETWORK/OTHER PROBLEMS.
+    # 本地调试时可fasle关闭。但生产建议打开，可防止因网络不稳定等原因导致误剔除服务。
+    enableSelfPreservation: false
+    #    renewalPercentThreshold: 0.85 # 默认85%
+    #eureka server刷新readCacheMap的时间，注意，client读取的是readCacheMap，这个时间决定了多久会把readWriteCacheMap的缓存更新到readCacheMap上
+    #单位：毫秒，默认30秒=30000毫秒，手动配置100毫秒
+    responseCacheUpdateIntervalMs: 100
+    #过期实例应该启动并运行的时间间隔，单位为毫秒，默认为60 * 1000=60s，这里设置1s
+    #就是说1s内没执行一次清理，eureka server清理无效节点的时间间隔，保证快速的驱逐下线的服务
+    evictionIntervalTimerInMs: 1000

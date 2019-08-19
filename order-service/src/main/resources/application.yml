@@ -12,22 +12,22 @@ eureka:
       version: current
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://peer1:8761/eureka/
     #从Eureka服务器端获取注册信息的间隔时间，默认30秒，这里设置为1秒
     #缓存清单更新时间，如果想eureka server剔除服务后或者上线新服务想尽快在缓存中更新服务，可缩短此时间
     registryFetchIntervalSeconds: 1
     #服务续约间隔时间。默认每隔30秒，客户端会向服务端发送心跳，这里设置为1秒
     leaseRenewalIntervalInSeconds: 1
 
-ribbon:
-  eager-load:
-    enabled: true
-  ConnectTimeout: 1000
-  ReadTimeout: 1000
-  OkToRetryOnAllOperations: true
-  MaxAutoRetries: 1
-  MaxAutoRetriesNextServer: 1
-
-feign:
-  hystrix:
-    enabled: false
+#ribbon:
+#  eager-load:
+#    enabled: true
+#  ConnectTimeout: 1000
+#  ReadTimeout: 1000
+#  OkToRetryOnAllOperations: true
+#  MaxAutoRetries: 1
+#  MaxAutoRetriesNextServer: 1
+#
+#feign:
+#  hystrix:
+#    enabled: false
